@@ -4,25 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Quote Generator</title>
-  <link rel="style.sheet" href="style.css"> 
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
-  <label for="categoryFilter">Filter by Category:</label>
-  <select id="categoryFilter" onchange="filterQuotes()">
-    <option value="all">All Categories</option>
-    <!-- Categories will be populated dynamically -->
-  </select>
   <div id="quoteDisplay"></div>
   <button id="newQuote">Show New Quote</button>
-  <div>
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button onclick="addQuote()">Add Quote</button>
-    <button id="exportQuotes">Export Quotes</button>
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)"/>
-
-  </div>
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+    <!-- Dynamically populated categories -->
+  </select>
+  <button id="exportQuotes">Export Quotes as JSON</button>
+  <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
   <script src="script.js"></script>
 </body>
 </html>

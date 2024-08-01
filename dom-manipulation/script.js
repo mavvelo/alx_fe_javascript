@@ -66,7 +66,7 @@ async function syncQuotes() {
       saveQuotesToLocalStorage();
       populateCategories(); // Update category filter
       showRandomQuote(); // Optionally display a random quote
-      displayNotification('Data updated from server. Conflicts resolved.', true);
+      displayNotification('Quotes synced with server!', true); // Notification for successful sync
     }
   }
 }
@@ -201,7 +201,7 @@ function importFromJsonFile(event) {
         saveQuotesToLocalStorage();
         populateCategories(); // Update category filter with new categories from imported quotes
         showRandomQuote();
-        alert('Quotes imported successfully!');
+        displayNotification('Quotes imported successfully!');
       } else {
         alert('Invalid JSON format. Please upload a valid JSON file.');
       }
