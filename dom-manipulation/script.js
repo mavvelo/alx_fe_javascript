@@ -49,33 +49,18 @@ async function fetchQuotesFromServer() {
   }
 }
 
-// Post quotes to server (for demonstration, actual implementation might differ)
-async function postQuotesToServer(quotes) {
-  try {
-    const response = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quotes: quotes })
-    });
-    const result = await response.json();
-    console.log('Successfully posted quotes to server:', result);
-  } catch (error) {
-    console.error('Failed to post quotes to server:', error);
-  }
-}
-
-// Sync local data with server
-async function syncData() {
+// Sync quotes with the server and handle conflicts
+async function syncQuotes() {
   const serverQuotes = await fetchQuotesFromServer();
+  
   if (serverQuotes.length > 0) {
-    // Resolve conflicts and update local data
     const { updatedQuotes, conflictsResolved } = resolveConflicts(quotes, serverQuotes);
-    quotes = updatedQuotes;
-    saveQuotesToLocalStorage();
-    populateCategories(); // Update category filter
-    showRandomQuote(); // Optionally display a random quote
-
+    
     if (conflictsResolved) {
+      quotes = updatedQuotes;
+      saveQuotesToLocalStorage();
+      populateCategories(); // Update category filter
+      showRandomQuote(); // Optionally display a random quote
       displayNotification('Data updated from server. Conflicts resolved.', true);
     }
   }
@@ -99,8 +84,8 @@ function arraysEqual(arr1, arr2) {
 
 // Set up periodic syncing
 function setupPeriodicSync() {
-  syncData(); // Initial sync
-  setInterval(syncData, 300000); // Sync every 5 minutes (300000 ms)
+  syncQuotes(); // Initial sync
+  setInterval(syncQuotes, 300000); // Sync every 5 minutes (300000 ms)
 }
 
 // Populate category filter dropdown with unique categories
