@@ -32,10 +32,15 @@ function initializeApp() {
   setupPeriodicSync();
 }
 
-// Fetch quotes from server
+// Fetch quotes from server with POST request
 async function fetchQuotesFromServer() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(API_URL, {
+      method: 'POST', // Using POST to fetch data, normally GET is used
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     const serverQuotes = await response.json();
     // Assuming server response has a structure { quotes: [...] }
     // Replace with your actual server response parsing
