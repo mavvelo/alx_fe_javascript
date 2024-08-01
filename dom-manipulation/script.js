@@ -10,7 +10,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
 
 // Initialize application
 function initializeApp() {
-  populateCategoryFilter();
+  populateCategories();
   showRandomQuote();
   createAddQuoteForm();
 
@@ -58,7 +58,7 @@ function showRandomQuote() {
 }
 
 // Populate category filter dropdown with unique categories
-function populateCategoryFilter() {
+function populateCategories() {
   const categoryFilter = document.getElementById('categoryFilter');
   categoryFilter.innerHTML = '<option value="all">All Categories</option>';
 
@@ -104,31 +104,13 @@ function addQuote() {
   if (newQuoteText && newQuoteCategory) {
     quotes.push({ text: newQuoteText, category: newQuoteCategory });
     saveQuotesToLocalStorage();
-    updateCategoryFilter(); // Update category filter dropdown if necessary
+    populateCategories(); // Update category filter dropdown with new categories
     showRandomQuote();
     document.getElementById('newQuoteText').value = '';
     document.getElementById('newQuoteCategory').value = '';
   } else {
     alert("Both quote text and category are required to add a new quote.");
   }
-}
-
-// Update category filter dropdown with new categories
-function updateCategoryFilter() {
-  const categoryFilter = document.getElementById('categoryFilter');
-  const existingCategories = new Set([...categoryFilter.options].map(option => option.value));
-
-  // Extract new categories
-  const newCategories = [...new Set(quotes.map(quote => quote.category))]
-    .filter(category => !existingCategories.has(category));
-
-  // Add new categories to the dropdown
-  newCategories.forEach(category => {
-    const option = document.createElement('option');
-    option.value = category;
-    option.textContent = category;
-    categoryFilter.appendChild(option);
-  });
 }
 
 // Export quotes to a JSON file
@@ -154,7 +136,7 @@ function importFromJsonFile(event) {
       if (Array.isArray(importedQuotes)) {
         quotes = [...quotes, ...importedQuotes];
         saveQuotesToLocalStorage();
-        updateCategoryFilter(); // Update category filter with new categories from imported quotes
+        populateCategories(); // Update category filter with new categories from imported quotes
         showRandomQuote();
         alert('Quotes imported successfully!');
       } else {
